@@ -141,7 +141,6 @@ namespace BlitzWare
                     if (response.IsSuccessStatusCode)
                     {
                         Constants.initialized = true;
-                        Console.WriteLine(content2.status);
                         ApplicationSettings.status = content2.status;
                         ApplicationSettings.hwidCheck = content2.hwidCheck;
                         ApplicationSettings.programHash = content2.programHash;
