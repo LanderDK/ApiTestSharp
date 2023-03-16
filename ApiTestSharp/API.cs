@@ -11,6 +11,9 @@ using Newtonsoft.Json;
 using System.Security.Cryptography;
 using System.Diagnostics;
 using System.Threading;
+using System.Security.Principal;
+using System.Management;
+using System.Net.Sockets;
 
 namespace BlitzWare
 {
@@ -18,7 +21,8 @@ namespace BlitzWare
     {
         internal class Constants
         {
-            public static string apiUrl = "http://localhost:9000/api/";
+            public static string apiUrl = "https://blitzware-api-production.up.railway.app/api/";
+            //public static string apiUrl = "http://localhost:9000/api/";
 
             public static bool initialized = false;
 
@@ -27,6 +31,28 @@ namespace BlitzWare
             public static bool breached = false;
 
             public static DateTime timeSent = DateTime.Now;
+
+            public static string HWID()
+            {
+                string uuid = string.Empty;
+
+                ManagementClass mc = new ManagementClass("Win32_ComputerSystemProduct");
+                ManagementObjectCollection moc = mc.GetInstances();
+
+                foreach (ManagementObject mo in moc)
+                {
+                    uuid = mo.Properties["UUID"].Value.ToString();
+                    break;
+                }
+
+                return uuid;
+            }
+
+            public static string IP()
+            {
+                string externalIpString = new WebClient().DownloadString("http://icanhazip.com").Replace("\\r\\n", "").Replace("\\n", "").Trim();
+                return externalIpString;
+            }
         }
         class AppInitDetails
         {
@@ -65,6 +91,10 @@ namespace BlitzWare
             public string username { get; set; }
 
             public string password { get; set; }
+
+            public string hwid { get; set; }
+
+            public string lastIP { get; set; }
         }
         class UserRegisterDetails
         {
@@ -75,6 +105,10 @@ namespace BlitzWare
             public string email { get; set; }
 
             public string license { get; set; }
+
+            public string hwid { get; set; }
+
+            public string lastIP { get; set; }
         }
         class UserExtendDetails
         {
@@ -83,6 +117,8 @@ namespace BlitzWare
             public string password { get; set; }
 
             public string license { get; set; }
+
+            public string hwid { get; set; }
         }
         internal class User
         {
@@ -234,7 +270,7 @@ namespace BlitzWare
                 {
                     RequestUri = new Uri(url),
                     Method = HttpMethod.Post,
-                    Content = new StringContent(JsonConvert.SerializeObject(new UserLoginDetails { username = username, password = password }), Encoding.UTF8, "application/json")
+                    Content = new StringContent(JsonConvert.SerializeObject(new UserLoginDetails { username = username, password = password, hwid = Constants.HWID(), lastIP = Constants.IP() }), Encoding.UTF8, "application/json")
                 };
                 var response = client.SendAsync(request).Result;
                 var content = response.Content.ReadAsStringAsync().Result;
@@ -311,7 +347,7 @@ namespace BlitzWare
                 {
                     RequestUri = new Uri(url),
                     Method = HttpMethod.Post,
-                    Content = new StringContent(JsonConvert.SerializeObject(new UserRegisterDetails { username = username, password = password, email = email, license = license }), Encoding.UTF8, "application/json")
+                    Content = new StringContent(JsonConvert.SerializeObject(new UserRegisterDetails { username = username, password = password, email = email, license = license, hwid = Constants.HWID(), lastIP = Constants.IP() }), Encoding.UTF8, "application/json")
                 };
                 var response = client.SendAsync(request).Result;
                 var content = response.Content.ReadAsStringAsync().Result;
@@ -392,7 +428,7 @@ namespace BlitzWare
                 {
                     RequestUri = new Uri(url),
                     Method = HttpMethod.Put,
-                    Content = new StringContent(JsonConvert.SerializeObject(new UserExtendDetails { username = username, password = password, license = license }), Encoding.UTF8, "application/json")
+                    Content = new StringContent(JsonConvert.SerializeObject(new UserExtendDetails { username = username, password = password, license = license, hwid = Constants.HWID() }), Encoding.UTF8, "application/json")
                 };
                 var response = client.SendAsync(request).Result;
                 var content = response.Content.ReadAsStringAsync().Result;
