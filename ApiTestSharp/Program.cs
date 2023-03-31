@@ -17,7 +17,7 @@ namespace BlitzWare
     {
         static void Main(string[] args)
         {
-            API.OnProgramStart.Initialize("Test", "b6c774c7ec4c56311f9066dcc270d62ef0f04e9ec589bf8db2353386232a06af", "1.0");
+            API.OnProgramStart.Initialize("BlitzWare", "b15d1b577028d6db8526aab7e4cb9c566b9c7957c9831660eac405ddc3d382a4", "1.0");
 
             Misc.RandomTitle();
             Misc.Logo1();

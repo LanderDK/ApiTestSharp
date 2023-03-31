@@ -21,7 +21,7 @@ namespace BlitzWare
     {
         internal class Constants
         {
-            public static string apiUrl = "https://3.120.148.15/api/";
+            public static string apiUrl = "https://api.blitzware.xyz/api/";
             //public static string apiUrl = "http://localhost:9000/api/";
 
             public static bool initialized = false;
