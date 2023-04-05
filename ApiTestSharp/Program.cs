@@ -17,13 +17,14 @@ namespace BlitzWare
     {
         static void Main(string[] args)
         {
-            API.OnProgramStart.Initialize("BlitzWare", "b15d1b577028d6db8526aab7e4cb9c566b9c7957c9831660eac405ddc3d382a4", "1.0");
+            API.OnProgramStart.Initialize("BlitzWare", "3f842f1ad6f7aeace6a87bbe51a00e15db6642b354a420eeba105c2fbd0eda2b", "1.0");
 
             Misc.RandomTitle();
             Misc.Logo1();
             Console.WriteLine("\n[1] Login");
             Console.WriteLine("[2] Register");
-            Console.WriteLine("[3] Extend Subscription");
+            if (!API.ApplicationSettings.freeMode)
+                Console.WriteLine("[3] Extend Subscription");
             Console.WriteLine("\nOption:");
             string option = Console.ReadLine();
 
@@ -65,8 +66,12 @@ namespace BlitzWare
                 string password = Console.ReadLine();
                 Console.Write("\nEmail: ");
                 string email = Console.ReadLine();
-                Console.Write("\nLicense: ");
-                string license = Console.ReadLine();
+                string license = "N/A";
+                if (!API.ApplicationSettings.freeMode)
+                {
+                    Console.Write("\nLicense: ");
+                    license = Console.ReadLine();
+                }
 
                 if (API.Register(username, password, email, license))
                 {
@@ -79,25 +84,28 @@ namespace BlitzWare
                     Process.GetCurrentProcess().Kill();
                 }
             }
-            else if (option == "3")
+            if (!API.ApplicationSettings.freeMode)
             {
-                Console.Clear();
-                Misc.Logo1();
-                Console.Write("\nUsername: ");
-                string username = Console.ReadLine();
-                Console.Write("\nPassword: ");
-                string password = Console.ReadLine();
-                Console.Write("\nLicense: ");
-                string license = Console.ReadLine();
+                if (option == "3")
+                {
+                    Console.Clear();
+                    Misc.Logo1();
+                    Console.Write("\nUsername: ");
+                    string username = Console.ReadLine();
+                    Console.Write("\nPassword: ");
+                    string password = Console.ReadLine();
+                    Console.Write("\nLicense: ");
+                    string license = Console.ReadLine();
 
-                if (API.ExtendSub(username, password, license))
-                {
-                    MessageBox.Show("Successfully Extended Your Subscription!", API.OnProgramStart.Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    Console.ReadLine();
-                }
-                else
-                {
-                    Process.GetCurrentProcess().Kill();
+                    if (API.ExtendSub(username, password, license))
+                    {
+                        MessageBox.Show("Successfully Extended Your Subscription!", API.OnProgramStart.Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        Console.ReadLine();
+                    }
+                    else
+                    {
+                        Process.GetCurrentProcess().Kill();
+                    }
                 }
             }
         }
