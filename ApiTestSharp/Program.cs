@@ -17,7 +17,7 @@ namespace BlitzWare
     {
         static void Main(string[] args)
         {
-            API.OnProgramStart.Initialize("BlitzWare", "3f842f1ad6f7aeace6a87bbe51a00e15db6642b354a420eeba105c2fbd0eda2b", "1.0");
+            API.OnProgramStart.Initialize("APP NAME", "SECRET", "VERSION");
 
             Misc.RandomTitle();
             Misc.Logo1();
@@ -40,6 +40,7 @@ namespace BlitzWare
                 if (API.Login(username, password))
                 {
                     MessageBox.Show("Successfully Logged In!", API.OnProgramStart.Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    API.Log(API.User.Username, "User logged in");
                     Console.Clear();
                     Misc.Logo1();
                     Console.WriteLine("ID: " + API.User.ID);
@@ -76,6 +77,7 @@ namespace BlitzWare
                 if (API.Register(username, password, email, license))
                 {
                     MessageBox.Show("Successfully Registered!", API.OnProgramStart.Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    API.Log(API.User.Username, "User registered");
                     Console.ReadLine();
                 }
                 else
@@ -100,6 +102,7 @@ namespace BlitzWare
                     if (API.ExtendSub(username, password, license))
                     {
                         MessageBox.Show("Successfully Extended Your Subscription!", API.OnProgramStart.Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        API.Log(API.User.Username, "User extended");
                         Console.ReadLine();
                     }
                     else
