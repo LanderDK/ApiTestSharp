@@ -26,7 +26,7 @@ namespace BlitzWare
             if (!API.ApplicationSettings.freeMode)
                 Console.WriteLine("[3] Extend Subscription");
             Console.WriteLine("\nOption:");
-            string option = Console.ReadLine();
+            string option = Console.ReadLine(); 
 
             if (option == "1")
             {
@@ -51,6 +51,7 @@ namespace BlitzWare
                     Console.WriteLine("Last Login: " + API.User.LastLogin);
                     Console.WriteLine("IP: " + API.User.IP);
                     Console.ReadLine();
+                    //do code that you want
                 }
                 else
                 {
@@ -79,6 +80,7 @@ namespace BlitzWare
                     MessageBox.Show("Successfully Registered!", API.OnProgramStart.Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     API.Log(API.User.Username, "User registered");
                     Console.ReadLine();
+                    //do code that you want
                 }
                 else
                 {
@@ -104,6 +106,7 @@ namespace BlitzWare
                         MessageBox.Show("Successfully Extended Your Subscription!", API.OnProgramStart.Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         API.Log(API.User.Username, "User extended");
                         Console.ReadLine();
+                        //do code that you want
                     }
                     else
                     {
