@@ -17,7 +17,7 @@ namespace BlitzWare
     {
         static void Main(string[] args)
         {
-            API.OnProgramStart.Initialize("APP NAME", "SECRET", "VERSION");
+            API.OnProgramStart.Initialize("APP NAME", "APP SECRET", "APP VERSION");
 
             Misc.RandomTitle();
             Misc.Logo1();
