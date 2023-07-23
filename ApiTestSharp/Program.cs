@@ -36,8 +36,10 @@ namespace BlitzWare
                 string username = Console.ReadLine();
                 Console.Write("\nPassword: ");
                 string password = Console.ReadLine();
+                Console.Write("\n2FA code (if enabled): ");
+                string twoFactorCode = Console.ReadLine();
 
-                if (API.Login(username, password))
+                if (API.Login(username, password, twoFactorCode))
                 {
                     MessageBox.Show("Successfully Logged In!", API.OnProgramStart.Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     API.Log(API.User.Username, "User logged in");
@@ -52,6 +54,23 @@ namespace BlitzWare
                     Console.WriteLine("IP: " + API.User.IP);
                     Console.ReadLine();
                     //do code that you want
+                    Console.WriteLine("Press 1 to enable 2FA, press 2 to disable 2FA:");
+                    option = Console.ReadLine();
+                    if (option == "1")
+                    {
+                        API.CreateQRCode();
+                        Console.WriteLine("QR Code:");
+                        twoFactorCode = Console.ReadLine();
+                        API.Verify2FA(twoFactorCode);
+                        Console.ReadLine();
+                    }
+                    else if (option == "2")
+                    {
+                        Console.WriteLine("QR Code:");
+                        twoFactorCode = Console.ReadLine();
+                        API.Disable2FA(twoFactorCode);
+                        Console.ReadLine();
+                    }
                 }
                 else
                 {
