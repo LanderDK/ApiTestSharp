@@ -22,9 +22,10 @@ namespace BlitzWare
             Misc.RandomTitle();
             Misc.Logo1();
             Console.WriteLine("\n[1] Login");
-            Console.WriteLine("[2] Register");
+            Console.WriteLine("[2] Login (license only)");
+            Console.WriteLine("[3] Register");
             if (!API.ApplicationSettings.freeMode)
-                Console.WriteLine("[3] Extend Subscription");
+                Console.WriteLine("[4] Extend Subscription");
             Console.WriteLine("\nOption:");
             string option = Console.ReadLine(); 
 
@@ -81,6 +82,35 @@ namespace BlitzWare
             {
                 Console.Clear();
                 Misc.Logo1();
+                Console.Write("\nLicense: ");
+                string license = Console.ReadLine();
+
+                if (API.LoginLicenseOnly(license))
+                {
+                    MessageBox.Show("Successfully Logged In!", API.OnProgramStart.Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    API.Log(API.User.Username, "User logged in");
+                    Console.Clear();
+                    Misc.Logo1();
+                    Console.WriteLine("ID: " + API.User.ID);
+                    Console.WriteLine("Username: " + API.User.Username);
+                    Console.WriteLine("Email: " + API.User.Email);
+                    Console.WriteLine("Subscription Expiry: " + API.User.Expiry);
+                    Console.WriteLine("HWID: " + API.User.HWID);
+                    Console.WriteLine("Last Login: " + API.User.LastLogin);
+                    Console.WriteLine("IP: " + API.User.IP);
+                    Console.ReadLine();
+                    //do code that you want
+                }
+                else
+                {
+                    Console.ReadLine();
+                    Process.GetCurrentProcess().Kill();
+                }
+            }
+            else if (option == "3")
+            {
+                Console.Clear();
+                Misc.Logo1();
                 Console.Write("\nUsername: ");
                 string username = Console.ReadLine();
                 Console.Write("\nPassword: ");
@@ -109,7 +139,7 @@ namespace BlitzWare
             }
             if (!API.ApplicationSettings.freeMode)
             {
-                if (option == "3")
+                if (option == "4")
                 {
                     Console.Clear();
                     Misc.Logo1();
